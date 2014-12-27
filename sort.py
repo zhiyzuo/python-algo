@@ -113,11 +113,3 @@ def quickSort(l):
     right = quickSort(l[i+1:])
 
     return left + [l[i]] + right
-
-l = [9,7,5,11,12,2,14,3,10,6]
-#selectionSort(l)
-#insertionSort(l)
-#sortedL = mergeSort(l)
-sortedL = quickSort(l)
-print sortedL
-#print l
