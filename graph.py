@@ -6,6 +6,15 @@ class Node:
         self.id = Node.nodeID
         Node.nodeID = Node.nodeID + 1
 
+    def __eq__(self, node):
+        if self.name == node.name:
+            return True
+        else:
+            return False
+    # make Node objects hashable
+    def __hash__(self):
+        return self.name
+
     def getID(self):
         return self.id
 
@@ -39,6 +48,12 @@ class Edge:
         self.id = Edge.EdgeID
         Edge.EdgeID = Edge.EdgeID + 1
 
+    def __eq__(self, edge):
+        if self.source == edge.source and self.target == edge.target:
+            return True
+        else:
+            return False
+
     def getID(self):
         return self.id
 
@@ -71,6 +86,23 @@ class Edge:
         return self.__str__()
 # }}}
 
+# {{{ TODO: Adjacency Class
+'''
+class adjacencyMatrix:
+    adjMatID = 0
+    
+    def __init__(self):
+        self.id = adjacencyMatrix.adjMatID
+        adjacencyMatrix.adjMatID += 1
+        self.entries = {}
+
+    def __init__(self, graph):
+        self.id = adjacencyMatrix.adjMatID
+        adjacencyMatrix.adjMatID += 1
+        self.entries = {}
+'''
+# }}} 
+
 # undirected graph
 class Graph:
 # {{{ Graph Class
@@ -88,6 +120,7 @@ class Graph:
         if type(edges) == list:
             self.edges = edges
             reversedEdges = []
+            # both directions are needed
             for edge in self.edges:
                 reversedEdge = edge.reverse()
                 reversedEdges.append(reversedEdge)
@@ -126,7 +159,10 @@ class Graph:
         return node in self.nodes
 
     def addNode(self, node):
-        self.nodes.append(node)
+        if self.hasNode(node):
+            print "{} is already in the graph".format(node)
+        else:
+            self.nodes.append(node)
 
     def addNodes(self, nodes):
         for node in nodes:
@@ -149,6 +185,11 @@ class Graph:
         return edge in self.edges
 
     def addEdge(self, edge):
+
+        if self.hasEdge(edge):
+            print "{} is already in this graph".format(edge)
+            return 
+
         source = edge.getSource()
         target = edge.getTarget()
         weight = edge.getWeight()
@@ -163,6 +204,8 @@ class Graph:
                 self.adjList[target].append((source, weight))
             else:
                 self.adjList[target] = [(source, weight)]
+
+            self.edges.append([edge, edge.reverse()])
         else:
             print "source or target node is not eligible!"
 
@@ -171,8 +214,10 @@ class Graph:
             self.addEdge(edge)
 
     def removeEdge(self, edge):
-        if self.hasEdge(edge):
+        reversedEdge = edge.reverse()
+        if self.hasEdge(edge) and self.hasEdge(reversedEdge):
             self.edges.remove(edge)
+            self.edges.remove(reversedEdge)
             del self.adjList[edge.getSource()]
             del self.adjList[edge.getTarget()]
         else:
@@ -211,6 +256,7 @@ class DiGraph(Graph):
         else:
             self.edges = [edges]
 
+        # adjacency list
         self.adjList = {}
         for edge in self.edges:
             source = edge.getSource()
@@ -218,7 +264,7 @@ class DiGraph(Graph):
             weight = edge.getWeight()
             if source in self.nodes and target in self.nodes:
                 # with directions: add once
-                if source in self.adjList:
+                if source in self.adjList.keys():
                     self.adjList[source].append((target, weight))
                 else:
                     self.adjList[source] = [(target, weight)]
@@ -231,7 +277,7 @@ class DiGraph(Graph):
     def __str__(self):
         string = '\nDirected Graph id {} with\nnodes: {}\nedges:  '.format(self.id, self.nodes)
         for edge in self.edges:
-            string += edge.__repr__() + '\n\t'  
+            string += edge.__str__() + '\n\t'  
         return string
 
     def __repr__(self):
