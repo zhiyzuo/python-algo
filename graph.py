@@ -1,19 +1,27 @@
 class Node:
 # {{{ Node Class
     nodeID = 0
+    # records edges that are already created
+    taken = []
     def __init__(self, name):
-        self.name = name
-        self.id = Node.nodeID
-        Node.nodeID = Node.nodeID + 1
+        if name not in Node.taken:
+            self.name = name
+            self.id = Node.nodeID
+            Node.nodeID = Node.nodeID + 1
+            Node.taken.append(name)
+        else:
+            print "{} has been taken!".format(name)
 
     def __eq__(self, node):
         if self.name == node.name:
             return True
         else:
             return False
+
     # make Node objects hashable
+    # (Act as dict keys)
     def __hash__(self):
-        return self.name
+        return self.id
 
     def getID(self):
         return self.id
@@ -25,34 +33,45 @@ class Node:
         return Node(self.name)
 
     def __str__(self):
-        return '<Node: id {} name {}>'.format(self.id, self.name)
+        return 'Node {}'.format(self.name)
 
     def __repr__(self):
-        return self.__str__()
+        return 'Node {}'.format(self.name)
 # }}}
 
 class Edge:
 # {{{ Edge Class
     EdgeID = 0
-
+    # records edges that are already created
+    taken = []
     def __init__(self, source, target, weight=1):
     # both source and target are Node objects
-        self.source = source
-        self.target = target
-        if type(weight) == int:
-            self.weight = weight
-        else:
-            self.weight = 1 # default
-            print "Please enter an integer for weight! (Now set to default value 1)"
+        if (source, target) not in Edge.taken:
+            self.source = source
+            self.target = target
+            if type(weight) == int:
+                self.weight = weight
+            else:
+                self.weight = 1 # default
+                print "Please enter an integer for weight! (Now set to default value 1)"
+                print "Use setWeight method to reset the weight"
 
-        self.id = Edge.EdgeID
-        Edge.EdgeID = Edge.EdgeID + 1
+            self.id = Edge.EdgeID
+            Edge.EdgeID = Edge.EdgeID + 1
+            Edge.taken.append((source, target))
+            print Edge.taken
+        else:
+            print "Edge ({}, {}) has already been created".format(source, target)
+
 
     def __eq__(self, edge):
         if self.source == edge.source and self.target == edge.target:
             return True
         else:
             return False
+
+    def __hash__(self):
+        return self.id
 
     def getID(self):
         return self.id
@@ -66,12 +85,12 @@ class Edge:
     def getWeight(self):
         return self.weight
 
-    def modifyWeight(self, weight):
+    def setWeight(self, weight):
         if type(weight) == int:
             self.weight = weight
         else:
-            self.weight = 1 # default
             print "Please enter an integer for weight! (Now set to default value 1)"
+            self.weight = 1 # default
     
     def reverse(self):
         source = self.source
@@ -80,10 +99,10 @@ class Edge:
         return Edge(target, source, weight)
 
     def __str__(self):
-        return '<Edge id {} ({} -> {}) with weight {}>'.format(self.id, self.source.getName(), self.target.getName(), self.getWeight())
+        return '({}, {}, {})'.format(self.source.getName(), self.target.getName(), self.getWeight())
 
     def __repr__(self):
-        return self.__str__()
+        return '({}, {}, {})'.format(self.source.getName(), self.target.getName(), self.getWeight())
 # }}}
 
 # {{{ TODO: Adjacency Class
@@ -119,16 +138,15 @@ class Graph:
 
         if type(edges) == list:
             self.edges = edges
-            reversedEdges = []
             # both directions are needed
-            for edge in self.edges:
-                reversedEdge = edge.reverse()
-                reversedEdges.append(reversedEdge)
-            self.edges.extend(reversedEdges)
-
+            # for edge in self.edges:
+            #   self.edges.append(edge.reverse())
         else:
-            self.edges = [edges, edges.reverse()]
+            #self.edges = [edges, edges.reverse()]
+            self.edges = [edges]
 
+        # TODO: adjacency list
+        '''
         self.adjList = {}
         for edge in self.edges:
             source = edge.getSource()
@@ -142,6 +160,7 @@ class Graph:
                     self.adjList[source] = [(target, weight)]
             else:
                 print "source or target node is not eligible!"
+        '''
 
         self.id = Graph.GraphID
         Graph.GraphID = Graph.GraphID + 1
@@ -149,8 +168,8 @@ class Graph:
     def getID(self):
         return self.id
 
-    def getAdjList(self):
-        return self.adjList
+    #def getAdjList(self):
+    #    return self.adjList
 
     def getNodes(self):
         return self.nodes
@@ -185,15 +204,13 @@ class Graph:
         return edge in self.edges
 
     def addEdge(self, edge):
-
         if self.hasEdge(edge):
             print "{} is already in this graph".format(edge)
             return 
-
         source = edge.getSource()
         target = edge.getTarget()
-        weight = edge.getWeight()
         if source in self.nodes and target in self.nodes:
+            '''
             # no directions: add twice
             if source in self.adjList:
                 self.adjList[source].append((target, weight))
@@ -204,10 +221,10 @@ class Graph:
                 self.adjList[target].append((source, weight))
             else:
                 self.adjList[target] = [(source, weight)]
-
+            '''
             self.edges.append([edge, edge.reverse()])
         else:
-            print "source or target node is not eligible!"
+            print "source or target node of this edge is not eligible!"
 
     def addEdges(self, edges):
         for edge in edges:
@@ -237,6 +254,7 @@ class Graph:
         return self.__str__()
 # }}}
 
+'''
 class DiGraph(Graph):
 # {{{ Directed Graph Class
 
@@ -283,3 +301,4 @@ class DiGraph(Graph):
     def __repr__(self):
         return self.__str__()
 # }}}
+'''
