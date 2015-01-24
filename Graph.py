@@ -350,4 +350,48 @@ class AdjacencyList:
     def __repr__(self):
         return self.__str__()
 
+    def getDictionary(self):
+    # get the dictionary of representations
+        return self.entries
+    
+
 # }}} 
+
+# TODO: Adjacency Matrix: 
+'''
+class AdjacencyMatrix:
+# {{{ Adjacency Matrix Class
+    def __init__(self, graph):
+        self.matrix = []
+        nodes = graph.getNodes()
+        edges = graph.getEdges()
+        for node in nodes:
+            temp_list = []
+            for edge in edges:
+                source = edge.getSource()
+                if source == node:
+                    target = edge.getTarget()
+                    temp_list.append(target)
+            self.matrix.append(temp_list)
+
+    def __str__(self):
+        string = 'Adjancency List\n'
+        for node in self.entries:
+            string += str(node) + ': '
+            if len(self.entries[node]) > 0:
+                for neighbour in self.entries[node]:
+                    string += str(neighbour) + '; '
+            else:
+                string += 'null'
+            string += '\n'
+        return string
+
+    def __repr__(self):
+        return self.__str__()
+
+    def getDictionary(self):
+    # get the dictionary of representations
+        return self.entries
+    
+# }}} 
+'''
