@@ -123,8 +123,6 @@ class Graph:
             self.edges = [edges, edges.reverse()]
             # self.edges = [edges]
 
-        # TODO: adjacency list
-
         self.id = Graph.GraphID
         Graph.GraphID = Graph.GraphID + 1
 
@@ -232,8 +230,6 @@ class DiGraph:
             self.edges = edges
         else:
             self.edges = [edges]
-
-        # TODO: adjacency list
 
         self.id = DiGraph.DiGraphID
         DiGraph.DiGraphID = DiGraph.DiGraphID + 1
@@ -357,41 +353,49 @@ class AdjacencyList:
 
 # }}} 
 
-# TODO: Adjacency Matrix: 
-'''
 class AdjacencyMatrix:
 # {{{ Adjacency Matrix Class
     def __init__(self, graph):
-        self.matrix = []
+
         nodes = graph.getNodes()
+        self.nodesIndices = {}
+        index = 0
+        for node in nodes:
+            self.nodesIndices[node] = index
+            index = index + 1
+
+        # Note: use list comprehension to create 2-dim list
+        self.matrix = [ ([0] * index) for row in xrange(index) ]
+
         edges = graph.getEdges()
         for node in nodes:
-            temp_list = []
             for edge in edges:
                 source = edge.getSource()
+                sourceIndex = self.nodesIndices[source]
+                # put weight in (u, v) if there's an edge between u and v
                 if source == node:
-                    target = edge.getTarget()
-                    temp_list.append(target)
-            self.matrix.append(temp_list)
+                    targetIndex = self.nodesIndices[edge.getTarget()]
+                    print sourceIndex, targetIndex
+                    self.matrix[sourceIndex][targetIndex] = edge.getWeight()
+                    print self.matrix
 
     def __str__(self):
-        string = 'Adjancency List\n'
-        for node in self.entries:
-            string += str(node) + ': '
-            if len(self.entries[node]) > 0:
-                for neighbour in self.entries[node]:
-                    string += str(neighbour) + '; '
-            else:
-                string += 'null'
+        string = '\t' * (len(self.nodesIndices)//2)
+        string += 'Adjancency Matrix\n\n'
+        for row in self.matrix:
+            for entry in row:
+                string += "\t" + str(entry)
             string += '\n'
+        string += "-- Nodes' indices: {} --\n".format(self.nodesIndices)
         return string
 
     def __repr__(self):
         return self.__str__()
 
-    def getDictionary(self):
-    # get the dictionary of representations
-        return self.entries
-    
+    def getNodesIndices(self):
+        return self.nodesIndices
+
+    def getMatrix(self):
+        return self.matrix
+
 # }}} 
-'''
