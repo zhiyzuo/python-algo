@@ -280,24 +280,24 @@ class DiGraph(Graph):
 class AdjacencyList:
 # {{{ Adjacency List Class
     def __init__(self, graph):
-        self.entries = {}
+        self.adjList = {}
         for edge in graph.getEdges():
             source = edge.getSource()
             target = edge.getTarget()
-            if source in self.entries:
-                self.entries[source].append(target)
+            if source in self.adjList:
+                self.adjList[source].append(target)
             else:
-                self.entries[source] = [target]
+                self.adjList[source] = [target]
         for node in graph.getNodes():
-            if node not in self.entries:
-                self.entries[node] = []
+            if node not in self.adjList:
+                self.adjList[node] = []
 
     def __str__(self):
         string = 'Adjancency List\n'
-        for node in self.entries:
+        for node in self.adjList:
             string += str(node) + ': '
-            if len(self.entries[node]) > 0:
-                for neighbour in self.entries[node]:
+            if len(self.adjList[node]) > 0:
+                for neighbour in self.adjList[node]:
                     string += str(neighbour) + '; '
             else:
                 string += 'null'
@@ -307,9 +307,9 @@ class AdjacencyList:
     def __repr__(self):
         return self.__str__()
 
-    def getDictionary(self):
+    def getAdjacencyList(self):
     # get the dictionary of representations
-        return self.entries
+        return self.adjList
     
 
 # }}} 
@@ -360,3 +360,38 @@ class AdjacencyMatrix:
         return self.matrix
 
 # }}} 
+
+# Algorithms for graphs
+from DataStructure import *
+
+def topologicalSort(dag):
+    ''' Return a list containing a linear order
+        of the given directed acyclic graph;
+        Input should be an adjacency list;
+    '''
+    adjacencyList = dag.getAdjacencyList()
+    linearOrder = []
+    nextNodes = Stack()
+
+    indegree = {}
+    for node in adjacencyList:
+        for neighbour in adjacencyList[node]:
+            if neighbour in indegree:
+                indegree[neighbour] += 1
+            else:
+                indegree[neighbour] = 1
+    
+    for node in adjacencyList:
+        if node not in indegree:
+            indegree[node] = 0
+            nextNodes.push(node)
+
+    while nextNodes.getSize() > 0:
+        nextNode = nextNodes.pop()
+        linearOrder.append(nextNode)
+        for neighbour in adjacencyList[nextNode]:
+            indegree[neighbour] -= 1
+            if indegree[neighbour] == 0:
+                nextNodes.push(neighbour)
+
+    return linearOrder

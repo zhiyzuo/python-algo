@@ -25,7 +25,7 @@ class Stack:
     def isEmpty(self):
         return len(self.items) == 0
 
-    def size(self):
+    def getSize(self):
         return len(self.items)
 
     def __repr__(self):
@@ -61,7 +61,7 @@ class Queue:
     def isEmpty(self):
         return len(self.items) == 0
 
-    def size(self):
+    def getSize(self):
         return len(self.items)
 
     def __repr__(self):
