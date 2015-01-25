@@ -123,14 +123,15 @@ class Graph:
             self.edges = [edges, edges.reverse()]
             # self.edges = [edges]
 
+        self.type = 'undirected'
         self.id = Graph.GraphID
         Graph.GraphID = Graph.GraphID + 1
 
     def getID(self):
         return self.id
 
-    #def getAdjList(self):
-    #    return self.adjList
+    def getType(self):
+        return self.type
 
     def getNodes(self):
         return self.nodes
@@ -212,7 +213,7 @@ class Graph:
 # }}}
 
 # directed graph
-class DiGraph:
+class DiGraph(Graph):
 # {{{ Directed Graph Class
 
     DiGraphID = 0
@@ -231,49 +232,9 @@ class DiGraph:
         else:
             self.edges = [edges]
 
+        self.type = 'directed'
         self.id = DiGraph.DiGraphID
         DiGraph.DiGraphID = DiGraph.DiGraphID + 1
-
-    def getID(self):
-        return self.id
-
-    #def getAdjList(self):
-    #    return self.adjList
-
-    def getNodes(self):
-        return self.nodes
-
-    def hasNode(self, node):
-        return node in self.nodes
-
-    def addNode(self, node):
-        if self.hasNode(node):
-            print "{} is already in the graph".format(node)
-        else:
-            self.nodes.append(node)
-
-    def addNodes(self, nodes):
-        for node in nodes:
-            self.addNode(node)
-
-    def removeNode(self, node):
-        # also remove edges that include the node
-        if self.hasNode(node):
-            self.nodes.remove(node)
-            remove = []
-            for edge in self.edges:
-                source = edge.getSource()
-                target = edge.getTarget()
-                if source == node or target == node:
-                    remove.append(edge)
-            for edge in remove:
-                self.edges.remove(edge)
-        else:
-            print "{} is not in this graph!".format(node)
-
-    def removeNodes(self, nodes):
-        for node in nodes:
-            self.removeNode(node)
 
     def getEdges(self):
         return self.edges
@@ -386,7 +347,7 @@ class AdjacencyMatrix:
             for entry in row:
                 string += "\t" + str(entry)
             string += '\n'
-        string += "-- Nodes' indices: {} --\n".format(self.nodesIndices)
+        string += "\n-- Nodes' indices: {} --\n".format(self.nodesIndices)
         return string
 
     def __repr__(self):
