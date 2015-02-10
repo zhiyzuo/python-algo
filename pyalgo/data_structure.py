@@ -23,7 +23,7 @@ class Stack:
     def pop(self):
         try:
             if self.is_empty():
-                raise StackEmptyError
+                raise EmptyError("stack")
             self.top = self.top - 1
             _pop_item = self.items[-1]
             self.items = np.delete(self.items, -1)
@@ -71,7 +71,7 @@ class Queue:
     def dequeue(self):
         try:
             if self.is_empty():
-                raise QueueEmptyError
+                raise EmptyError('queue')
             self.top = self.top - 1
             _dequeue_item = self.items[-1]
             self.items = np.delete(self.items, -1)

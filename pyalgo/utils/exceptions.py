@@ -1,16 +1,12 @@
-class StackEmptyError(Exception):
-    msg = "Current Stack is empty!"
-    def __str__(self):
-        return StackEmptyError.msg
-    def __repr__(self):
-        return StackEmptyError.msg
+class EmptyError(Exception):
 
-class QueueEmptyError(Exception):
-    msg = "Current Queue is empty!"
+    def __init__(self, message="object"):
+        self.message = "Current {} is empty!".format(message)
+
     def __str__(self):
-        return QueueEmptyError.msg
+        return self.msg
     def __repr__(self):
-        return QueueEmptyError.msg
+        return self.msg
 
 '''
 class DimensionError(Exception):
