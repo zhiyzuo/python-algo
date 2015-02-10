@@ -361,9 +361,6 @@ class AdjacencyMatrix:
 
 # }}} 
 
-# Algorithms for graphs
-from DataStructure import *
-
 def topologicalSort(dag):
     ''' Return a list containing a linear order
         of the given directed acyclic graph;
