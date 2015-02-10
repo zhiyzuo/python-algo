@@ -5,12 +5,13 @@ class Stack:
 # {{{ Stack class
     def __init__(self, items=[]):
         try:
-            self.top = -1
             self.length = 0
             if type(items) in [int, float, str]:
                 self.items = np.array([items])
+                self.top = len(items)
             elif type(items) in [np.ndarray, list]:
                 self.items = np.asarray(items)
+                self.top = 1
             else:
                 raise TypeError('Please check the input!')
         except TypeError:
@@ -41,7 +42,7 @@ class Stack:
         return self.items.size
 
     def __repr__(self):
-        return "Stack:\n{}".format(self.items)
+        return "Stack: {}".format(self.items)
 
     def __str__(self):
         return repr(self)
@@ -53,19 +54,20 @@ class Queue:
 # {{{ Queue class
     def __init__(self, items=[]):
         try:
-            self.top = -1
             self.length = 0
             if type(items) in [int, float, str]:
                 self.items = np.array([items])
+                self.top = 0
             elif type(items) in [np.ndarray, list]:
                 self.items = np.asarray(items)
+                self.top = len(items)
             else:
                 raise TypeError('Please check the input!')
         except TypeError:
             raise
 
     def enqueue(self, item):
-        self.items.append(item)
+        self.items = np.append(self.items, item)
         self.top = self.top + 1
 
     def dequeue(self):
@@ -73,11 +75,11 @@ class Queue:
             if self.is_empty():
                 raise EmptyError('queue')
             self.top = self.top - 1
-            _dequeue_item = self.items[-1]
-            self.items = np.delete(self.items, -1)
+            _dequeue_item = self.items[0]
+            self.items = np.delete(self.items, 0)
             return _dequeue_item
 
-        except QueueEmptyError:
+        except EmptyError:
             raise
 
     def get_top(self):
@@ -90,7 +92,7 @@ class Queue:
         return self.items.size
 
     def __repr__(self):
-        return "Queue:\n{}".format(self.items)
+        return "Queue: {}".format(self.items)
 
     def __str__(self):
         return repr(self)
