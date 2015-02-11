@@ -1,3 +1,3 @@
 # python-algorithms
 
-A python implementation of classic algorithms.
+Python implementation of classic algorithms.
