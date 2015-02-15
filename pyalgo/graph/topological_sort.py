@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from data_structure import Stack
 
 def topologicalSort(dag):

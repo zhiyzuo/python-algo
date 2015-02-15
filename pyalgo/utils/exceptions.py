@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class EmptyError(Exception):
 
     def __init__(self, message="object"):

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 def _find_median_index(l):
     """ Helper function for quick sort.
         Find out the index of the middle value

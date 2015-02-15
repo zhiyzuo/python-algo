@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 def insertionSort(l):
     """ Insertion sort for list/array
         Modify the original input to sorted
