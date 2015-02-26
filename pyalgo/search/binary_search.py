@@ -6,7 +6,7 @@ def binary_search(l, x, recursive=False):
     """
 
     if recursive:
-        binary_search_recurrsive(l, x)
+        return binary_search_recurrsive(l, x, 0, len(l)-1)
 
     else:
         start = 0
@@ -21,16 +21,15 @@ def binary_search(l, x, recursive=False):
                 end = mid-1
         return False
 
-def binary_search_recurrsive(l, x):
+def binary_search_recurrsive(l, x, start, end):
     """Recurrsive binary search for list/array"""
 
-    start = 0
-    end = len(l) - 1
+    if start > end:
+        return False
     mid = (start + end) //2
     if x == l[mid]:
         return mid
     elif x > l[mid]:
-        binary_search_recurrsive(l[mid+1:end+1], x)    
+        return binary_search_recurrsive(l, x, mid+1, end)    
     else:
-        binary_search_recurrsive(l[start:mid], x)    
-    return False
+        return binary_search_recurrsive(l, x, start, mid-1)    

@@ -5,3 +5,4 @@
 *.~
 *.log
 test.py
+_test.py
