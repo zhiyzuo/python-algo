@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 def _merge(left, right):
     ''' Helper function for merge sort
         Merge two lists according to the value of elements

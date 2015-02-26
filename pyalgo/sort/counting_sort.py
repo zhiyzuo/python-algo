@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 def countingSort(l, keyRange=None):
     """ Counting sort for list/array (discrete&finite sorting keys)
         Return a new list that is sorted

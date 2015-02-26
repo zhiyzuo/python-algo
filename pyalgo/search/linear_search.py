@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 def linear_search(l, x):
     """Linear search for list/array
        If x is not in l, return False

@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 def _find_min_index(l):
     ''' Helper function for selection sort
         To find out the index of the minimun value in the given input

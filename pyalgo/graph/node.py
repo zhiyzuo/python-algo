@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class Node:
 # {{{ Node Class
     node_id = 0

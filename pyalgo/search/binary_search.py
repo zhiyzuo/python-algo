@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 def binary_search(l, x, recursive=False):
     """Binary search for list/array
        Require the input to be sorted

@@ -1,2 +1,2 @@
-__all__ = ['utils',
-           'data_structure', 'graph', 'search', 'sort']
+__all__ = ['utils', 'graph', 'search', 'sort'
+           'data_structure']
