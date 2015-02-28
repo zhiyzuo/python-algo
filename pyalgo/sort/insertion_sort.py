@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-def insertionSort(l):
+def insertion_sort(l):
     """ Insertion sort for list/array
         Modify the original input to sorted
     """
