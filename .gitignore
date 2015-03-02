@@ -4,5 +4,6 @@
 *.swo
 *.~
 *.log
+*.png
 test.py
 _test.py
