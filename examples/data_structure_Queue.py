@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 import sys
-sys.path.append("..\..")
+sys.path.append("..")
 from pyalgo.data_structure import *
 
 def test_print():
