@@ -7,3 +7,4 @@
 *.png
 test.py
 _test.py
+nohup.out
